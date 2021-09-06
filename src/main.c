@@ -4,6 +4,8 @@
 
 #include "include/printing.h"
 
+#ifndef BUILD_TEST
+
 char* getusername(void) {
 	char* name = getenv("USER");
 	if (!name)
@@ -42,3 +44,5 @@ int main(void) {
 
 	return(0);
 }
+
+#endif

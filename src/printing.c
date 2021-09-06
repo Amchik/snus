@@ -365,3 +365,39 @@ void prnt_msg_end(prnt_msgprt_t node) {
 
   _PRNT_INT_SPIN_NEXT
 }
+
+#ifndef INT_NO_THREADING
+#include <pthread.h>
+
+static prnt_msgprt_t _prnt_int_tnode = 0;
+static u_int32_t _prnt_int_toffset = 0;
+
+void* prnt_int_routine() {
+	u_int32_t _offset = _prnt_int_toffset;
+
+	while (_prnt_int_tnode && _offset == _prnt_int_toffset) {
+		prnt_msg_start(_prnt_int_tnode);
+		usleep(50000);
+	}
+	return(0);
+}
+
+void prnt_msg_tstart(prnt_msgprt_t node) {
+	pthread_t thread;
+
+	if (_prnt_int_tnode) {
+		prnt_msg_tend();
+	}
+
+	_prnt_int_tnode = node;
+	_prnt_int_toffset++;
+	pthread_create(&thread, 0, prnt_int_routine, 0);
+}
+
+void prnt_msg_tend() {
+	prnt_msgprt_t node = _prnt_int_tnode;
+	_prnt_int_tnode = 0;
+	_prnt_int_toffset++;
+	prnt_msg_end(node);
+}
+#endif

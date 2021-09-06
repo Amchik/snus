@@ -86,6 +86,12 @@ void prnt_msg_start(prnt_msgprt_t node);
 /* End existing message, removes from memory and reprint it (with ending) */
 void prnt_msg_end(prnt_msgprt_t node);
 
+/* Init full message thread with autoupdates */
+void prnt_msg_tstart(prnt_msgprt_t node);
+
+/* End message thread (if exists) and removes chain from memory */
+void prnt_msg_tend();
+
 /* Force place newline at end of existing message (without reprinting) */
 #define prnt_msg_end_force() {putc('\n', stdout);}
 /* Inline functions by @nanoqsh AKA implentation
