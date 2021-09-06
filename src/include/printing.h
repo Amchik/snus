@@ -8,23 +8,23 @@
 
 /* Message part node (for internal usage) */
 struct _prnt_int_msgprt {
-	/*
-	 * ID of part (keep unique)
-	 * Note: id 0 will be ignored as id
-	 * and cannot be queried (if INT_FAIL_ZEROID)
-	 */
-	u_int16_t id;
+  /*
+   * ID of part (keep unique)
+   * Note: id 0 will be ignored as id
+   * and cannot be queried (if INT_FAIL_ZEROID)
+   */
+  u_int16_t id;
 
-	/* foreground color */
-	u_int8_t primary_color;
-	/* background color */
-	u_int8_t secondary_color;
+  /* foreground color */
+  u_int8_t primary_color;
+  /* background color */
+  u_int8_t secondary_color;
 
-	/* message */
-	char* message_text;
+  /* message */
+  char* message_text;
 
-	/* Next node or NULL */
-	struct _prnt_int_msgprt* next;
+  /* Next node or NULL */
+  struct _prnt_int_msgprt* next;
 };
 
 /* Message part node */
@@ -60,10 +60,10 @@ typedef struct _prnt_int_msgprt* prnt_msgprt_t;
  * type param are enum, see macroses starts with PRNT_
  */
 prnt_msgprt_t prnt_new(
-		u_int8_t type, 
-		u_int16_t id, 
-		char* message_text, 
-		prnt_msgprt_t next
+    u_int8_t type, 
+    u_int16_t id, 
+    char* message_text, 
+    prnt_msgprt_t next
 );
 
 prnt_msgprt_t prnt_new_info(char* message_text, prnt_msgprt_t next);

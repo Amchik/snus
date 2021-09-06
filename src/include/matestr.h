@@ -10,19 +10,19 @@
  * Mate string. Do not modify this struct
  */
 typedef struct {
-	/*
-	 * C-string instance
-	 */
-	char* cstr;
-	/*
-	 * Length of string
-	 */
-	u_int32_t length;
+  /*
+   * C-string instance
+   */
+  char* cstr;
+  /*
+   * Length of string
+   */
+  u_int32_t length;
 
-	/*
-	 * Allocated bytes for the string
-	 */
-	u_int32_t __allocated;
+  /*
+   * Allocated bytes for the string
+   */
+  u_int32_t __allocated;
 } matestr;
 
 /*
