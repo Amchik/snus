@@ -2,6 +2,9 @@
 
 Бесполезная коллекция кода на C
 
+К слову, для нормального отображения табы были заменены на пробелы.
+Команда для замены: `sed -i 's/\t/  /g'`
+
 ## matestr
 
 Попытка написать какие-то строки... Использование:
@@ -16,12 +19,12 @@
 matestr str = matestr_new("Hello world!");
 /* Использование её в функциях: */
 printf("String: %s, Length: %u, Allocated: %u",
-	str.cstr, str.length, str.__allocated);
+  str.cstr, str.length, str.__allocated);
 /* Данная функция ставит нулевой символ (окончание строки)
    в cstr[length] */
 matestr_normalize(str);
 /* Данная функция перевыделяет память строке, если ей
-	 было выделено больше её длинны + 1 */
+   было выделено больше её длинны + 1 */
 matestr_optimize(str);
 /* Данная функция добавляет (копирует) строку в строку */
 matestr_append(str, " How are you?");
@@ -37,12 +40,12 @@ free(str.cstr);
 Макросы при компиляции:
 
 * `INT_CALCULATE_SPACES` высчитывание пробелов в терминале, если не стоит, в конце
-	каждой строки будет добавляться куча пробелов (?)
-	* `INT_CALCULATE_SPACES_GETENV` высчитывание по переменной `$COLUMNS`. Часто не
-		работает и не рекомендуется к использованию
-	* `INT_CALCULATE_SPACES_HALF` обрезание количества пробелов на 2, что бы при
-		изменении размера терминала ничего не слетало. Спойлер: идея плохая
-	* `INT_CALCULATE_SPACES_THREE` 2/3 пробелов
+  каждой строки будет добавляться куча пробелов (?)
+  * `INT_CALCULATE_SPACES_GETENV` высчитывание по переменной `$COLUMNS`. Часто не
+    работает и не рекомендуется к использованию
+  * `INT_CALCULATE_SPACES_HALF` обрезание количества пробелов на 2, что бы при
+    изменении размера терминала ничего не слетало. Спойлер: идея плохая
+  * `INT_CALCULATE_SPACES_THREE` 2/3 пробелов
 * `INT_REPORT_RUNTIME` сообщает предупреждения в рантайме в stdout. Только для отладки
 * `INT_FAIL_ZEROID` не пытается найти элемент с id == 0
 * `INT_NO_THREADING` выключает многопоточность
@@ -65,9 +68,9 @@ free(str.cstr);
 
 /* создание простого сообщения */
 prnt_msgprt_t msg = prnt_new_info("Hello, ",
-	prnt_new(PRNT_CODE, 1, "world", 
-		prnt_new_info("! ", 
-			prnt_new_spin(2, 0 /* aka NULL */))));
+  prnt_new(PRNT_CODE, 1, "world", 
+    prnt_new_info("! ", 
+      prnt_new_spin(2, 0 /* aka NULL */))));
 
 /* вывод сообщения */
 prnt_msg_start(msg);
@@ -75,8 +78,8 @@ prnt_msg_start(msg);
 #ifdef INT_NO_THREADING
 /* сообщения с типом spin при повторном вызове будет меняться: */
 for (int i = 0; i < 25; i++) {
-	prnt_msg_start(msg); /* start так же используется для обновления */
-	usleep(15000);
+  prnt_msg_start(msg); /* start так же используется для обновления */
+  usleep(15000);
 }
 #else
 /* можно создать отдельный поток с сообщеем, который будет автоматически обновляться */
@@ -98,5 +101,36 @@ prnt_msg_end(msg);
    Он так же отчистит сообщение из памяти */
 prnt_msg_tend();
 #endif
+```
+
+## utests
+
+Либа для тестирования. Работает чуть хуже написание тестов в
+`main()` функции.
+
+Так же для работы нужна `printing.h` (см. выше)
+
+Пример:
+
+```c
+char* some_test() {
+  return(0); /* NULL */
+}
+char* failed_test() {
+  return("Reason");
+}
+
+int main(void) {
+  utests_add("Ungroup test", some_test);
+  utests_group("Testing unit test framework");
+  utests_add("Some test", some_test);
+  utests_add("Failed test", failed_test);
+  utests_group("Another group");
+  utests_add("Another test", some_test);
+
+  utests_start();
+
+  return(127);
+}
 ```
 
